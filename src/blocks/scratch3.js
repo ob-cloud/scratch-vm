@@ -18,9 +18,18 @@ Scratch3Blocks.prototype.getPrimitives = function() {
         'control_stop': this.stop,
         'event_whenflagclicked': this.whenFlagClicked,
         'event_whenbroadcastreceived': this.whenBroadcastReceived,
-        'event_broadcast': this.broadcast
+        'event_broadcast': this.broadcast,
+        'motion_move100steps': this.move100Steps
     };
 };
+
+Scratch3Blocks.prototype.move100Steps = function(argValues, util) {
+    const steps = 100;
+    const radians = MathUtil.degToRad(90 - util.target.direction);
+    const dx = steps * Math.cos(radians);
+    const dy = steps * Math.sin(radians);
+    util.target.setXY(util.target.x + dx, util.target.y + dy);
+}
 
 Scratch3Blocks.prototype.repeat = function(argValues, util) {
     console.log('Running: control_repeat');
