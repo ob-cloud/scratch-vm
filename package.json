@@ -12,7 +12,7 @@
   "main": "./dist/node/scratch-vm.js",
   "browser": "./src/index.js",
   "scripts": {
-    "build": "npm run docs && webpack --progress --colors --bail",
+    "build": "webpack --progress --colors --bail",
     "coverage": "tap ./test/{unit,integration}/*.js --coverage --coverage-report=lcov",
     "deploy": "touch playground/.nojekyll && gh-pages -t -d playground -m \"Build for $(git log --pretty=format:%H -n1)\"",
     "docs": "jsdoc -c .jsdoc.json",
@@ -68,6 +68,7 @@
     "json": "^9.0.4",
     "lodash.defaultsdeep": "4.6.1",
     "pngjs": "^3.3.2",
+    "schema-utils": "^2.6.4",
     "scratch-audio": "latest",
     "scratch-blocks": "latest",
     "scratch-l10n": "^3.1.20181129221712",
