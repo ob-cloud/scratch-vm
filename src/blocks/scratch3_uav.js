@@ -20,18 +20,17 @@ class Scratch3UavBlocks {
      */
     getPrimitives () {
         return {
-            // uav_calibration: this.calibration
+            uav_calibration: this.calibration,
+            uav_text: this.text
         };
     }
     calibration (args, util) {
-        console.log('vm---- ', args, util)
-        if (!util.target.isStage) {
-            if (args.FRONT_BACK === 'front') {
-                util.target.goToFront();
-            } else {
-                util.target.goToBack();
-            }
-        }
+        return '0011';
+    }
+
+    text (args, util) {
+        var code = '000;\n';
+        return code;
     }
 }
 
