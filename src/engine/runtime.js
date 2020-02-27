@@ -38,6 +38,7 @@ const defaultBlockPackages = {
     scratch3_operators: require('../blocks/scratch3_operators'),
     scratch3_sound: require('../blocks/scratch3_sound'),
     scratch3_uav: require('../blocks/scratch3_uav'),
+    scratch3_uav: require('../blocks/scratch3_uav_operators'),
     scratch3_sensing: require('../blocks/scratch3_sensing'),
     scratch3_data: require('../blocks/scratch3_data'),
     scratch3_procedures: require('../blocks/scratch3_procedures')
