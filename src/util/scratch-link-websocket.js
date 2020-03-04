@@ -30,6 +30,9 @@ class ScratchLinkWebSocket {
         case 'BT':
             this._ws = new WebSocket('wss://device-manager.scratch.mit.edu:20110/scratch/bt');
             break;
+        case 'UAV':
+            this._ws = new WebSocket('wss://127.0.0.1:8001');
+            break;
         default:
             throw new Error(`Unknown ScratchLink socket Type: ${this._type}`);
         }
