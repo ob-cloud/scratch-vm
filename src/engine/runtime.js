@@ -26,6 +26,7 @@ const Mouse = require('../io/mouse');
 const MouseWheel = require('../io/mouseWheel');
 const UserData = require('../io/userData');
 const Video = require('../io/video');
+const UAV = require('../io/uav');
 
 const StringUtil = require('../util/string-util');
 const uid = require('../util/uid');
@@ -38,7 +39,7 @@ const defaultBlockPackages = {
     scratch3_operators: require('../blocks/scratch3_operators'),
     scratch3_sound: require('../blocks/scratch3_sound'),
     scratch3_uav: require('../blocks/scratch3_uav'),
-    scratch3_uav: require('../blocks/scratch3_uav_operators'),
+    scratch3_uav_operators: require('../blocks/scratch3_uav_operators'),
     scratch3_sensing: require('../blocks/scratch3_sensing'),
     scratch3_data: require('../blocks/scratch3_data'),
     scratch3_procedures: require('../blocks/scratch3_procedures')
@@ -344,7 +345,8 @@ class Runtime extends EventEmitter {
             mouse: new Mouse(this),
             mouseWheel: new MouseWheel(this),
             userData: new UserData(),
-            video: new Video(this)
+            video: new Video(this),
+            uav: new UAV(this)
         };
 
         /**
