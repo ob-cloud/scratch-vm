@@ -87,12 +87,10 @@ class Scratch3UavBlocks {
     flyturn (args, util) {
         const operator = Cast.toString(args.UAVFLYTURN).toLowerCase();
         util.ioQuery('uav', 'sendMessage', [{cmd: `turn_${operator}`, data: Cast.toNumber(args.NUM)}]);
-        return turn[operator]
     }
     flyflip (args, util) {
         const operator = Cast.toString(args.UAVFLYFLIP).toLowerCase();
         util.ioQuery('uav', 'sendMessage', [{action: `flip_${operator}`, data: 0}]);
-        return turn[operator]
     }
     sendMsg (args, util) {
         const message = Cast.toString(args.MSG).toLowerCase();
