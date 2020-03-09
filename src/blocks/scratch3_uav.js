@@ -32,6 +32,7 @@ class Scratch3UavBlocks {
             uav_fly_down: this.flyDown,
             uav_fly_direction: this.flyDirection,
             uav_fly_turn: this.flyturn,
+            uav_fly_flip: this.flyflip,
             uav_send_message: this.sendMsg
         };
     }
@@ -58,50 +59,39 @@ class Scratch3UavBlocks {
         return operators[operator]
     }
     cal (args, util) {
-        const cal = {
-            'gyro': 0x01,
-            'mag': 0x02
-        }
         const operator = Cast.toString(args.UAVCAL).toLowerCase();
-        util.ioQuery('uav', 'sendMessage', [{action: `cal_${operator}`, cmd: cal[operator] || '', data: 0, index: -1}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: `cal_${operator}`, data: 0}]);
     }
     lock (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{action: 'lock', cmd: 0xee, data: 0, index: -1}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'lock', data: 0}]);
     }
     unlock (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{action: 'unlock', cmd: 0x03, data: 0, index: -1}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'unlock', data: 0}]);
     }
     takeoff (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{action: 'takeoff', cmd: 0x04, data: 0, index: -1}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'takeoff', data: 0}]);
     }
     landing (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{action: 'landing', cmd: 0x04, data: 0, index: -1}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'landing', data: 0}]);
     }
     flyRise (args, util) {
-        // data1
-        util.ioQuery('uav', 'sendMessage', [{action: 'fly_rise', cmd: 0xed, data: Cast.toNumber(args.NUM), index: 1}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_rise', data: Cast.toNumber(args.NUM)}]);
     }
     flyDown (args, util) {
-        // data2
-        util.ioQuery('uav', 'sendMessage', [{action: 'fly_down', cmd: 0xed, data: Cast.toNumber(args.NUM), index: 2}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_down', data: Cast.toNumber(args.NUM)}]);
     }
     flyDirection (args, util) {
         const operator = Cast.toString(args.UAVFLYDIRECTION).toLowerCase();
-        const direction = {
-            'forward': 3, //data3
-            'back': 4, //data4
-            'left': 5, //data5
-            'right': 6, //data6
-        }
-        util.ioQuery('uav', 'sendMessage', [{action: `fly_${operator}`, cmd: 0xed, data: Cast.toNumber(args.NUM), index: direction[operator]}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: `fly_${operator}`, data: Cast.toNumber(args.NUM)}]);
     }
     flyturn (args, util) {
         const operator = Cast.toString(args.UAVFLYTURN).toLowerCase();
-        const turn = {
-            'left': 7, //data7
-            'right': 8, //data8
-        }
-        util.ioQuery('uav', 'sendMessage', [{action: `turn_${operator}`, cmd: 0xed, data: Cast.toNumber(args.NUM), index: turn[operator]}]);
+        util.ioQuery('uav', 'sendMessage', [{cmd: `turn_${operator}`, data: Cast.toNumber(args.NUM)}]);
+        return turn[operator]
+    }
+    flyflip (args, util) {
+        const operator = Cast.toString(args.UAVFLYFLIP).toLowerCase();
+        util.ioQuery('uav', 'sendMessage', [{action: `flip_${operator}`, data: 0}]);
         return turn[operator]
     }
     sendMsg (args, util) {

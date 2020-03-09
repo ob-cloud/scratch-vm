@@ -1,43 +1,24 @@
 class ReqParams{
-    constructor (action = '', cmd = '', data = 0, index) {
-        this.action = action
+    constructor (cmd = '', data = 0) {
         this.cmd = cmd
         this.dataValue = data
-        this.index = index
         this.data = {
             cmd: cmd,
-            data1: 0,
-            data2: 0,
-            data3: 0,
-            data4: 0,
-            data5: 0,
-            data6: 0,
-            data7: 0,
-            data8: 0
+            data: data
         }
-    }
-    setAction (action) {
-        this.action = action
-        return this
     }
     setCmd (cmd) {
         this.cmd = cmd
         this.data.cmd = cmd
         return this
     }
-    setData (data, index) {
-        if (index === -1) {
-            return this.setCmd(this.cmd)
-        }
+    setData (data) {
         this.dataValue = data
-        this.data[`data${index}`] = data || this.dataValue
+        this.data.data = data
         return this
     }
     getJson () {
-        return {
-            action: this.action,
-            data: this.data
-        }
+        return this.data
     }
 }
 class UAV {
@@ -100,7 +81,7 @@ class UAV {
     }
     sendMessage (message) {
         const reqParams = new ReqParams()
-        const jsonMsg = reqParams.setAction(message.action).setCmd(message.cmd).setData(message.data, message.index).getJson()
+        const jsonMsg = reqParams.setCmd(message.cmd).setData(message.data).getJson()
         console.log(jsonMsg)
         this._sendMessage(jsonMsg)
     }
