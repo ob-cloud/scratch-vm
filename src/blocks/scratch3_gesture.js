@@ -14,7 +14,7 @@ class Scratch3GestureBlocks {
      */
     getPrimitives () {
         return {
-            gesture_start: this.start,
+            gesture_start: this.start
         };
     }
     start (args, util) {
