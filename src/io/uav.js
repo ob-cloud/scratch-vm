@@ -75,6 +75,7 @@ class UAV {
      */
     _handleMessage (json) {
         console.log('message   ', json)
+        this._runtime.emit('recieve', json)
         return new Promise((resolve, reject) => {
             resolve(json)
         })

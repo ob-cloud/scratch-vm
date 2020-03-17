@@ -33,6 +33,9 @@ class Scratch3UavBlocks {
             uav_fly_direction: this.flyDirection,
             uav_fly_turn: this.flyturn,
             uav_fly_flip: this.flyflip,
+            uav_face_unlock: this.faceUnlock,
+            uav_gesture_detect: this.gestureDetect,
+            uav_situation_detect: this.situationDetect,
             uav_send_message: this.sendMsg
         };
     }
@@ -64,6 +67,9 @@ class Scratch3UavBlocks {
     }
     lock (args, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'lock', data: 0}]);
+        this.runtime.on('recieve', function (json) {
+            console.log('revice ', json)
+        })
     }
     unlock (args, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'unlock', data: 0}]);
@@ -91,6 +97,15 @@ class Scratch3UavBlocks {
     flyflip (args, util) {
         const operator = Cast.toString(args.UAVFLYFLIP).toLowerCase();
         util.ioQuery('uav', 'sendMessage', [{cmd: `flip_${operator}`, data: 0}]);
+    }
+    faceUnlock (rags, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'face_unlock', data: 0}]);
+    }
+    gestureDetect (rags, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'gesture_detect', data: 0}]);
+    }
+    situationDetect (rags, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'situation_detect', data: 0}]);
     }
     sendMsg (args, util) {
         const message = Cast.toString(args.MSG).toLowerCase();

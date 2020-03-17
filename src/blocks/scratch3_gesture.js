@@ -14,11 +14,24 @@ class Scratch3GestureBlocks {
      */
     getPrimitives () {
         return {
-            gesture_start: this.start
+            gesture_start: this.start,
+            detect_face_unlock: this.faceUnlock,
+            detect_gesture: this.gestureDetect,
+            detect_situation: this.situationDetect
         };
     }
     start (args, util) {
         return '0011';
+    }
+
+    faceUnlock (rags, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'face_unlock', data: 0}]);
+    }
+    gestureDetect (rags, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'gesture_detect', data: 0}]);
+    }
+    situationDetect (rags, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'situation_detect', data: 0}]);
     }
 
 }
