@@ -67,9 +67,9 @@ class Scratch3UavBlocks {
     }
     lock (args, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'lock', data: 0}]);
-        this.runtime.on('recieve', function (json) {
-            console.log('revice ', json)
-        })
+        // this.runtime.on('recieve', function (json) {
+        //     console.log('revice ', json)
+        // })
     }
     unlock (args, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'unlock', data: 0}]);

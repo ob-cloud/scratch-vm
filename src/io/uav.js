@@ -74,16 +74,16 @@ class UAV {
      * revieve message from server
      */
     _handleMessage (json) {
-        console.log('message   ', json)
+        // console.log('message   ', json)
         this._runtime.emit('recieve', json)
-        return new Promise((resolve, reject) => {
-            resolve(json)
-        })
+        // return new Promise((resolve, reject) => {
+        //     resolve(json)
+        // })
     }
     sendMessage (message) {
         const reqParams = new ReqParams()
         const jsonMsg = reqParams.setCmd(message.cmd).setData(message.data).getJson()
-        console.log(jsonMsg)
+        // console.log(jsonMsg)
         this._sendMessage(jsonMsg)
     }
 }
