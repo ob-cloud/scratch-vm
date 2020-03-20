@@ -31,9 +31,14 @@ class Scratch3GestureBlocks {
         };
     }
     start (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'face_unlock', data: true}]);
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'visual_track', data: 0}]);
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'attitude_detect', data: 0}]);
+        const operator = Cast.toString(args.GESTURESTART).toLowerCase();
+        if (operator === 'face') {
+            util.ioQuery('uav', 'sendMessage', [{cmd: 'face_unlock', data: ''}]);
+        } else if (operator === 'visual') {
+            util.ioQuery('uav', 'sendMessage', [{cmd: 'visual_track', data: ''}]);
+        } else if (operator === 'situation') {
+            util.ioQuery('uav', 'sendMessage', [{cmd: 'attitude_detect', data: ''}]);
+        }
     }
 
     faceUnlock (rags, util) {
