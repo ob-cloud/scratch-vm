@@ -42,7 +42,8 @@ class Scratch3GestureBlocks {
             detect_situation: this.situationDetect,
             camera_open: this.cameraOpen,
             camera_close: this.cameraClose,
-            face_reg: this.faceReg
+            face_reg: this.faceReg,
+            gesture_stop: this.stop
         };
     }
     start (args, util) {
@@ -53,7 +54,7 @@ class Scratch3GestureBlocks {
             situation: 'attitude_detect',
             facereg: 'face_reg',
             cameraopen: 'open_camera',
-            cameraclose: 'close_camera',
+            // cameraclose: 'close_camera',
         }
         if (actionMap[operator]) {
             util.ioQuery('uav', 'sendMessage', [{cmd: actionMap[operator], data: ''}]);
@@ -65,6 +66,19 @@ class Scratch3GestureBlocks {
         // } else if (operator === 'situation') {
         //     util.ioQuery('uav', 'sendMessage', [{cmd: 'attitude_detect', data: ''}]);
         // }
+    }
+    stop (args, util) {
+        const operator = Cast.toString(args.GESTURESTOP).toLowerCase();
+        const actionMap = {
+            face: 'face_unlock_close',
+            visual: 'visual_track_close',
+            situation: 'attitude_detect_close',
+            facereg: 'face_reg_close',
+            cameraclose: 'close_camera',
+        }
+        if (actionMap[operator]) {
+            util.ioQuery('uav', 'sendMessage', [{cmd: actionMap[operator], data: ''}]);
+        }
     }
 
     faceUnlock (args, util) {
