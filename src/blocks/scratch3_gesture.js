@@ -98,7 +98,7 @@ class Scratch3GestureBlocks {
             setTimeout(function () {
                 console.log('_visual_track--- ', that._visual_track)
                 resolve(that._visual_track)
-            }, 1000)
+            }, 100)
         });
     }
     situationDetect (args, util) {
