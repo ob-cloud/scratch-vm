@@ -8,7 +8,10 @@ class Scratch3GestureBlocks {
          */
         this.runtime = runtime;
 
+        this._closeVisualTrack = this._closeVisualTrack.bind(this)
+
         this.runtime.on('recieve', this._onRecieve.bind(this));
+        this.runtime.on('PROJECT_STOP_ALL', this._closeVisualTrack.bind(this));
 
         this._data = '';
 
@@ -156,6 +159,12 @@ class Scratch3GestureBlocks {
         // }
         this[`_${cmd}`] = response.data
         this._data = response
+    }
+    _closeVisualTrack () {
+        if (this._visual_track) {
+            this._visual_track = 0
+            this.runtime.ioDevices['uav'].sendMessage({cmd: 'visual_track_close', data: ''})
+        }
     }
 }
 
