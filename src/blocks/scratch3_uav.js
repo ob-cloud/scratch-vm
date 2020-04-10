@@ -36,7 +36,8 @@ class Scratch3UavBlocks {
             uav_face_unlock: this.faceUnlock,
             uav_gesture_detect: this.gestureDetect,
             uav_situation_detect: this.situationDetect,
-            uav_send_message: this.sendMsg
+            uav_send_message: this.sendMsg,
+            uav_estop: this.estop
         };
     }
     calibration (args, util) {
@@ -106,6 +107,9 @@ class Scratch3UavBlocks {
     }
     situationDetect (rags, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'situation_detect', data: 0}]);
+    }
+    estop (args, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'e-stop', data: ''}]);
     }
     sendMsg (args, util) {
         const message = Cast.toString(args.MSG).toLowerCase();
