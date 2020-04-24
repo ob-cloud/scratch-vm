@@ -40,12 +40,12 @@ class Scratch3GestureBlocks {
     getPrimitives () {
         return {
             gesture_start: this.start,
-            detect_face_unlock: this.faceUnlock,
-            detect_gesture: this.gestureDetect,
-            detect_situation: this.situationDetect,
-            camera_open: this.cameraOpen,
-            camera_close: this.cameraClose,
-            face_reg: this.faceReg,
+            gesture_detect_face_unlock: this.faceUnlock,
+            gesture_detect_gesture: this.gestureDetect,
+            gesture_detect_situation: this.situationDetect,
+            gesture_camera_open: this.cameraOpen,
+            gesture_camera_close: this.cameraClose,
+            gesture_face_reg: this.faceReg,
             gesture_stop: this.stop
         };
     }
