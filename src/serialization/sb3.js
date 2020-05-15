@@ -56,7 +56,8 @@ const CORE_EXTENSIONS = [
     'sensing',
     'sound',
     'uav',
-    'gesture'
+    'gesture',
+    'car'
 ];
 
 // Constants referring to 'primitive' blocks that are usually shadows,
