@@ -22,27 +22,33 @@ class Scratch3ArmBlocks {
         };
     }
     reset (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'arm_reset', data: {}}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'arm_reset', data}]);
     }
     clamp (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'arm_clamp', data: {}}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'arm_clamp', data}]);
     }
     unclamp (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'arm_unclamp', data: {}}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'arm_unclamp', data}]);
     }
     move_horizontal (args, util) {
         const direction = Cast.toString(args.DIRECTION).toLowerCase();
-        const distance = Cast.toString(args.VALUE);
-        util.ioQuery('uav', 'sendMessage', [{cmd: `arm_move_${direction}`, data: {
-            value: distance
-        }}]);
+        const groupData = util.getGroupArgValues()
+        let data = groupData ? groupData : {value: 0}
+        data = Object.assign({}, data, {value: Cast.toString(args.VALUE)})
+        util.ioQuery('uav', 'sendMessage', [{cmd: `arm_move_${direction}`, data}]);
     }
     move_vertical (args, util) {
         const direction = Cast.toString(args.DIRECTION).toLowerCase();
-        const distance = Cast.toString(args.VALUE);
-        util.ioQuery('uav', 'sendMessage', [{cmd: `arm_${direction}`, data: {
-            value: distance
-        }}]);
+        const groupData = util.getGroupArgValues()
+        let data = groupData ? groupData : {value: 0}
+        data = Object.assign({}, data, {value: Cast.toString(args.VALUE)})
+        util.ioQuery('uav', 'sendMessage', [{cmd: `arm_${direction}`, data}]);
     }
 }
 

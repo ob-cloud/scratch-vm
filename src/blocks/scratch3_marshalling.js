@@ -37,11 +37,15 @@ class Scratch3MarshallingBlocks {
     }
     lighton (args, util) {
         const type = Cast.toString(args.LIGHTTYPE);
-        util.ioQuery('uav', 'sendMessage', [{cmd: `ms_${type}_light_on`, data: {}}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: `ms_${type}_light_on`, data}]);
     }
     lightoff (args, util) {
         const type = Cast.toString(args.LIGHTTYPE);
-        util.ioQuery('uav', 'sendMessage', [{cmd: `ms_${type}_light_off`, data: {}}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: `ms_${type}_light_off`, data}]);
     }
 }
 

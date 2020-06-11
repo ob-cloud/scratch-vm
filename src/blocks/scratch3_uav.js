@@ -64,37 +64,31 @@ class Scratch3UavBlocks {
     }
     cal (args, util) {
         const operator = Cast.toString(args.UAVCAL).toLowerCase();
-        // const isWrapper = !!util.thread.blockGlowInFrame
-        // if (isWrapper) {
-        //     const parentBlockId = util.thread.blockGlowInFrame
-        //     const parentCache = util.thread.blockContainer._cache._executeCached[parentBlockId]
-        //     const _argValues = parentCache._argValues
-        //     const isGroup = _argValues && _argValues.GROUP
-        //     if (isGroup) {
-        //         const groupId = Cast.toString(_argValues.GROUP);
-        //         const deviceId = Cast.toString(_argValues.DEVICE);
-        //         data = {groupId, deviceId, value: 0}
-        //     }
-        // }
+        // 编组处理
         const groupData = util.getGroupArgValues()
         const data = groupData ? groupData : {value: 0}
 
         util.ioQuery('uav', 'sendMessage', [{cmd: `cal_${operator}`, data}]);
     }
     lock (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'lock', data: 0}]);
-        // this.runtime.on('recieve', function (json) {
-        //     console.log('revice ', json)
-        // })
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'lock', data}]);
     }
     unlock (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'unlock', data: 0}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'unlock', data}]);
     }
     takeoff (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'takeoff', data: 0}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'takeoff', data}]);
     }
     landing (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'landing', data: 0}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'landing', data}]);
     }
     flyRise (args, util) {
         const groupData = util.getGroupArgValues()
@@ -103,31 +97,50 @@ class Scratch3UavBlocks {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_rise', data}]);
     }
     flyDown (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_down', data: Cast.toNumber(args.NUM)}]);
+        const groupData = util.getGroupArgValues()
+        let data = groupData ? groupData : {value: 0}
+        data = Object.assign({}, data, {value: Cast.toNumber(args.NUM)})
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_down', data}]);
     }
     flyDirection (args, util) {
         const operator = Cast.toString(args.UAVFLYDIRECTION).toLowerCase();
-        util.ioQuery('uav', 'sendMessage', [{cmd: `fly_${operator}`, data: Cast.toNumber(args.NUM)}]);
+        const groupData = util.getGroupArgValues()
+        let data = groupData ? groupData : {value: 0}
+        data = Object.assign({}, data, {value: Cast.toNumber(args.NUM)})
+        util.ioQuery('uav', 'sendMessage', [{cmd: `fly_${operator}`, data}]);
     }
     flyturn (args, util) {
         const operator = Cast.toString(args.UAVFLYTURN).toLowerCase();
-        util.ioQuery('uav', 'sendMessage', [{cmd: `turn_${operator}`, data: Cast.toNumber(args.NUM)}]);
+        const groupData = util.getGroupArgValues()
+        let data = groupData ? groupData : {value: 0}
+        data = Object.assign({}, data, {value: Cast.toNumber(args.NUM)})
+        util.ioQuery('uav', 'sendMessage', [{cmd: `turn_${operator}`, data}]);
     }
     flyflip (args, util) {
         const operator = Cast.toString(args.UAVFLYFLIP).toLowerCase();
-        util.ioQuery('uav', 'sendMessage', [{cmd: `flip_${operator}`, data: 0}]);
+        const groupData = util.getGroupArgValues()
+        let data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: `flip_${operator}`, data}]);
     }
     faceUnlock (rags, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'face_unlock', data: 0}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'face_unlock', data}]);
     }
     gestureDetect (rags, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'gesture_detect', data: 0}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'gesture_detect', data}]);
     }
     situationDetect (rags, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'situation_detect', data: 0}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'situation_detect', data}]);
     }
     estop (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'e-stop', data: ''}]);
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: ''}
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'e-stop', data}]);
     }
     sendMsg (args, util) {
         const message = Cast.toString(args.MSG).toLowerCase();

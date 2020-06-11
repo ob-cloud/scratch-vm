@@ -239,13 +239,30 @@ class BlockUtility {
      * 查询编组（直接父级编组），并返回分组参数
      */
     groupQuery () {
-        const parentBlockId = this.thread.blockGlowInFrame
-        const isWrapper = !!parentBlockId
-        if (!isWrapper) return ''
-        const parentCache = this.thread.blockContainer._cache._executeCached[parentBlockId]
-        const _argValues = parentCache._argValues
-        const isGroup = _argValues && _argValues.GROUP
-        return isGroup ? _argValues : ''
+        // const parentBlockId = this.thread.blockGlowInFrame
+        // const isWrapper = !!parentBlockId
+        // if (!isWrapper) return ''
+        // const parentCache = this.thread.blockContainer._cache._executeCached[parentBlockId]
+        // const _argValues = parentCache._argValues
+        // const isGroup = _argValues && _argValues.GROUP
+        // return isGroup ? _argValues : ''
+
+        const peekBlockId = this.thread.peekStack()
+        const peekBlock = this.thread.target.blocks.getBlock(peekBlockId)
+        if (!peekBlock) return ''
+        return this.queryParentGroupCursive(peekBlock.parent)
+    }
+
+    queryParentGroupCursive (parentBlockId) {
+        if (!parentBlockId) return ''
+        const block = this.thread.target.blocks.getBlock(parentBlockId)
+        if (!block) return ''
+        if (block.opcode === 'marshalling_group' || block.opcode === 'marshalling_group_range') {
+            const blockCache = this.thread.blockContainer._cache._executeCached[block.id]
+            return blockCache._argValues
+        } else {
+            return this.queryParentGroupCursive(block.parent)
+        }
     }
 
     /**
@@ -267,10 +284,10 @@ class BlockUtility {
      * 获取编组参数
      */
     getGroupArgValues () {
-        const _argValue = this.groupQueryCursive()
+        const _argValue = this.groupQuery()
         if (_argValue) {
-            const {GROUP, DEVICE, DEVTYPE} = _argValue
-            return {groupId: GROUP, deviceId: DEVICE, devType: DEVTYPE}
+            const {GROUP, DEVICE, DEVICE1, DEVTYPE} = _argValue
+            return {groupId: GROUP, deviceId: DEVICE1 ? `${DEVICE},${DEVICE1}`: DEVICE, devType: DEVTYPE}
         }
     }
 }
