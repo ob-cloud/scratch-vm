@@ -64,7 +64,22 @@ class Scratch3UavBlocks {
     }
     cal (args, util) {
         const operator = Cast.toString(args.UAVCAL).toLowerCase();
-        util.ioQuery('uav', 'sendMessage', [{cmd: `cal_${operator}`, data: 0}]);
+        // const isWrapper = !!util.thread.blockGlowInFrame
+        // if (isWrapper) {
+        //     const parentBlockId = util.thread.blockGlowInFrame
+        //     const parentCache = util.thread.blockContainer._cache._executeCached[parentBlockId]
+        //     const _argValues = parentCache._argValues
+        //     const isGroup = _argValues && _argValues.GROUP
+        //     if (isGroup) {
+        //         const groupId = Cast.toString(_argValues.GROUP);
+        //         const deviceId = Cast.toString(_argValues.DEVICE);
+        //         data = {groupId, deviceId, value: 0}
+        //     }
+        // }
+        const groupData = util.getGroupArgValues()
+        const data = groupData ? groupData : {value: 0}
+
+        util.ioQuery('uav', 'sendMessage', [{cmd: `cal_${operator}`, data}]);
     }
     lock (args, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'lock', data: 0}]);
@@ -82,7 +97,10 @@ class Scratch3UavBlocks {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'landing', data: 0}]);
     }
     flyRise (args, util) {
-        util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_rise', data: Cast.toNumber(args.NUM)}]);
+        const groupData = util.getGroupArgValues()
+        let data = groupData ? groupData : {value: 0}
+        data = Object.assign({}, data, {value: Cast.toNumber(args.NUM)})
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_rise', data}]);
     }
     flyDown (args, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'fly_down', data: Cast.toNumber(args.NUM)}]);

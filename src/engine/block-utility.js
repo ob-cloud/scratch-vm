@@ -235,6 +235,44 @@ class BlockUtility {
             return devObject[func].apply(devObject, args);
         }
     }
+    /**
+     * 查询编组（直接父级编组），并返回分组参数
+     */
+    groupQuery () {
+        const parentBlockId = this.thread.blockGlowInFrame
+        const isWrapper = !!parentBlockId
+        if (!isWrapper) return ''
+        const parentCache = this.thread.blockContainer._cache._executeCached[parentBlockId]
+        const _argValues = parentCache._argValues
+        const isGroup = _argValues && _argValues.GROUP
+        return isGroup ? _argValues : ''
+    }
+
+    /**
+     * 查询堆栈中第一个编组，并返回分组参数
+     */
+    groupQueryCursive () {
+        const caches = this.thread.blockContainer._cache._executeCached
+        for (const key in caches) {
+            if (caches.hasOwnProperty(key)) {
+                const cache = caches[key]
+                if (cache.opcode === 'marshalling_group' || cache.opcode === 'marshalling_group_range') {
+                    return cache._argValues
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取编组参数
+     */
+    getGroupArgValues () {
+        const _argValue = this.groupQueryCursive()
+        if (_argValue) {
+            const {GROUP, DEVICE, DEVTYPE} = _argValue
+            return {groupId: GROUP, deviceId: DEVICE, devType: DEVTYPE}
+        }
+    }
 }
 
 module.exports = BlockUtility;

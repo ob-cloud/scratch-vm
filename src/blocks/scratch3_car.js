@@ -19,7 +19,8 @@ class Scratch3CarBlocks {
             car_stop: this.stop,
             car_reset_action: this.reset,
             car_exec_action: this.exec,
-            car_collect_env: this.env
+            car_collect_env: this.env,
+            car_turn_around: this.take_round
         };
     }
     move (args, util) {
@@ -41,6 +42,9 @@ class Scratch3CarBlocks {
     }
     env (args, util) {
         util.ioQuery('uav', 'sendMessage', [{cmd: 'car_collect_env', data: 0}]);
+    }
+    take_round (args, util) {
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'car_turn_around', data: 0}]);
     }
 }
 

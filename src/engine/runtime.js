@@ -42,6 +42,8 @@ const defaultBlockPackages = {
     scratch3_uav_operators: require('../blocks/scratch3_uav_operators'),
     scratch3_gesture: require('../blocks/scratch3_gesture'),
     scratch3_car: require('../blocks/scratch3_car'),
+    scratch3_marshalling: require('../blocks/scratch3_marshalling'),
+    scratch3_arm: require('../blocks/scratch3_arm'),
     scratch3_sensing: require('../blocks/scratch3_sensing'),
     scratch3_data: require('../blocks/scratch3_data'),
     scratch3_procedures: require('../blocks/scratch3_procedures')
