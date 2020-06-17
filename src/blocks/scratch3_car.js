@@ -32,7 +32,8 @@ class Scratch3CarBlocks {
     }
     move_forward (args, util) {
         const groupData = util.getGroupArgValues()
-        const data = groupData ? groupData : {value: 0}
+        let data = groupData ? groupData : {value: 0}
+        data = Object.assign({}, data, {value: Cast.toString(args.NUM)})
         util.ioQuery('uav', 'sendMessage', [{cmd: `car_move_forward`, data}]);
     }
     turn (args, util) {
