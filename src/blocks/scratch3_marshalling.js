@@ -16,6 +16,7 @@ class Scratch3MarshallingBlocks {
         return {
             marshalling_group: this.group,
             marshalling_group_range: this.group_range,
+            marshalling_group_range_fn: this.group_range_fn,
             marshalling_req_data: this.request,
             marshalling_control_light_on: this.lighton,
             marshalling_control_light_off: this.lightoff
@@ -26,6 +27,18 @@ class Scratch3MarshallingBlocks {
     }
     group_range (args, util) {
         util.startBranch(1, false);
+    }
+    group_range_fn (args, util) {
+        const devType = Cast.toString(args.DEVTYPE);
+        const groupId = Cast.toString(args.GROUP);
+        const deviceId = Cast.toString(args.DEVICE);
+        const deviceId1 = Cast.toString(args.DEVICE1);
+        util.ioQuery('uav', 'sendMessage', [{cmd: 'ms_group', data: {
+            devType,
+            groupId,
+            deviceId: `${deviceId},${deviceId1}`,
+            value: 0
+        }}]);
     }
     request (args, util) {
         const devType = Cast.toString(args.DEVTYPE);
