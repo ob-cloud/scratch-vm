@@ -59,7 +59,8 @@ const CORE_EXTENSIONS = [
     'gesture',
     'car',
     'marshalling',
-    'arm'
+    'arm',
+    'scene'
 ];
 
 // Constants referring to 'primitive' blocks that are usually shadows,

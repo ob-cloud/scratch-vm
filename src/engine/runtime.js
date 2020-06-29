@@ -44,6 +44,7 @@ const defaultBlockPackages = {
     scratch3_car: require('../blocks/scratch3_car'),
     scratch3_marshalling: require('../blocks/scratch3_marshalling'),
     scratch3_arm: require('../blocks/scratch3_arm'),
+    scratch3_scene: require('../blocks/scratch3_scene'),
     scratch3_sensing: require('../blocks/scratch3_sensing'),
     scratch3_data: require('../blocks/scratch3_data'),
     scratch3_procedures: require('../blocks/scratch3_procedures')
