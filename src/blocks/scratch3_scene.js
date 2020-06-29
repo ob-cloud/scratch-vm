@@ -19,22 +19,26 @@ class Scratch3SCENEBlocks {
         };
     }
     control_light (args, util) {
-        const light = Cast.toString(args.LIGHT).toLowerCase();
-        const brightess = Cast.toNumber(args.BRIGHTNESS);
+        const red = Cast.toNumber(args.RED);
+        const blue = Cast.toNumber(args.BLUE);
+        const green = Cast.toNumber(args.GREEN);
         const groupData = util.getGroupArgValues()
         let data = groupData ? groupData : {value: 0}
         data = Object.assign({}, data, {
-            action: light,
-            value: brightess
+            red,
+            blue,
+            green
         })
         util.ioQuery('uav', 'sendMessage', [{cmd: 'scene_control_light', data}]);
     }
     control_volume (args, util) {
         const volume = Cast.toNumber(args.VOLUME);
+        const time = Cast.toNumber(args.TIME);
         const groupData = util.getGroupArgValues()
         let data = groupData ? groupData : {value: 0}
         data = Object.assign({}, data, {
-            value: volume
+            music: volume,
+            time
         })
         util.ioQuery('uav', 'sendMessage', [{cmd: 'scene_control_volume', data}]);
     }
