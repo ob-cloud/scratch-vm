@@ -33,10 +33,11 @@ class Scratch3MarshallingBlocks {
         const groupId = Cast.toString(args.GROUP);
         const deviceId = Cast.toString(args.DEVICE);
         const deviceId1 = Cast.toString(args.DEVICE1);
+        const deviceId2 = Cast.toString(args.DEVICE2);
         util.ioQuery('uav', 'sendMessage', [{cmd: 'ms_group', data: {
             devType,
             groupId,
-            deviceId: `${deviceId},${deviceId1}`,
+            deviceId: `${deviceId},${deviceId1},${deviceId2}`,
             value: 0
         }}]);
     }
