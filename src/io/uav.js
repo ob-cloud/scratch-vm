@@ -86,6 +86,9 @@ class UAV {
         console.log('send msg: ', jsonMsg)
         this._sendMessage(jsonMsg)
     }
+    receiveMessage () {
+
+    }
 }
 
 module.exports = UAV;

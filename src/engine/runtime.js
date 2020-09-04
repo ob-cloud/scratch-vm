@@ -17,6 +17,7 @@ const StageLayering = require('./stage-layering');
 const Variable = require('./variable');
 const xmlEscape = require('../util/xml-escape');
 const ScratchLinkWebSocket = require('../util/scratch-link-websocket');
+const ScratchLinkBridge = require('../util/scratch-link-bridge');
 
 // Virtual I/O devices.
 const Clock = require('../io/clock');
@@ -1423,6 +1424,11 @@ class Runtime extends EventEmitter {
     getScratchLinkSocket (type) {
         const factory = this._linkSocketFactory || this._defaultScratchLinkSocketFactory;
         return factory(type);
+    }
+
+    // TODO APP 通信
+    getScratchLinkBridge (type) {
+        return new ScratchLinkBridge(type);
     }
 
     /**
