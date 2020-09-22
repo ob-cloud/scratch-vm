@@ -5,6 +5,7 @@ const Cast = require('../util/cast');
 // const StageLayering = require('../engine/stage-layering');
 // const getMonitorIdForBlockWithArgs = require('../util/get-monitor-id');
 // const MathUtil = require('../util/math-util');
+const Timer = require('../util/timer');
 
 class Scratch3UavBlocks {
     constructor (runtime) {
@@ -13,6 +14,8 @@ class Scratch3UavBlocks {
          * @type {Runtime}
          */
         this.runtime = runtime;
+        // CMD 指令是否已发送
+        this.isCmdSend = false;
     }
     /**
      * Retrieve the block primitives implemented by this package.
@@ -107,7 +110,20 @@ class Scratch3UavBlocks {
         const groupData = util.getGroupArgValues()
         let data = groupData ? groupData : {value: 0}
         data = Object.assign({}, data, {value: Cast.toNumber(args.NUM)})
-        util.ioQuery('uav', 'sendMessage', [{cmd: `fly_${operator}`, data}]);
+        // util.ioQuery('uav', 'sendMessage', [{cmd: `fly_${operator}`, data}]);
+        // 飞机俯瞰，水平朝向
+        // 左右飞，对应舞台上升、下降
+        // 前后飞，对应左右飞
+        if (!this.isCmdSend) {
+            this.isCmdSend = true
+            util.ioQuery('uav', 'sendMessage', [{cmd: `fly_${operator}`, data}]);
+        }
+        const x = this.runtime._editingTarget.x
+        const y = this.runtime._editingTarget.y
+        operator === 'left' && this.glide({SECS: 1, X: x, Y: Cast.toNumber(args.NUM)}, util)
+        operator === 'right' && this.glide({SECS: 1, X: x, Y: -Cast.toNumber(args.NUM)}, util)
+        operator === 'forward' && this.glide({SECS: 1, X: Cast.toNumber(args.NUM), Y: y}, util)
+        operator === 'back' && this.glide({SECS: 1, X: -Cast.toNumber(args.NUM), Y: y}, util)
     }
     flyturn (args, util) {
         const operator = Cast.toString(args.UAVFLYTURN).toLowerCase();
@@ -146,6 +162,62 @@ class Scratch3UavBlocks {
         const message = Cast.toString(args.MSG).toLowerCase();
         // dt
         return message
+    }
+
+    getTargetXY (targetName, util) {
+        let targetX = 0;
+        let targetY = 0;
+        if (targetName === '_mouse_') {
+            targetX = util.ioQuery('mouse', 'getScratchX');
+            targetY = util.ioQuery('mouse', 'getScratchY');
+        } else if (targetName === '_random_') {
+            const stageWidth = this.runtime.constructor.STAGE_WIDTH;
+            const stageHeight = this.runtime.constructor.STAGE_HEIGHT;
+            targetX = Math.round(stageWidth * (Math.random() - 0.5));
+            targetY = Math.round(stageHeight * (Math.random() - 0.5));
+        } else {
+            targetName = Cast.toString(targetName);
+            const goToTarget = this.runtime.getSpriteTargetByName(targetName);
+            if (!goToTarget) return;
+            targetX = goToTarget.x;
+            targetY = goToTarget.y;
+        }
+        return [targetX, targetY];
+    }
+    glide (args, util) {
+        if (util.stackFrame.timer) {
+            const timeElapsed = util.stackFrame.timer.timeElapsed();
+            if (timeElapsed < util.stackFrame.duration * 1000) {
+                // In progress: move to intermediate position.
+                const frac = timeElapsed / (util.stackFrame.duration * 1000);
+                const dx = frac * (util.stackFrame.endX - util.stackFrame.startX);
+                const dy = frac * (util.stackFrame.endY - util.stackFrame.startY);
+                util.target.setXY(
+                    util.stackFrame.startX + dx,
+                    util.stackFrame.startY + dy
+                );
+                util.yield();
+            } else {
+                // Finished: move to final position.
+                util.target.setXY(util.stackFrame.endX, util.stackFrame.endY);
+                this.isCmdSend = false
+            }
+        } else {
+            // First time: save data for future use.
+            util.stackFrame.timer = new Timer();
+            util.stackFrame.timer.start();
+            util.stackFrame.duration = Cast.toNumber(args.SECS);
+            util.stackFrame.startX = util.target.x;
+            util.stackFrame.startY = util.target.y;
+            util.stackFrame.endX = Cast.toNumber(args.X);
+            util.stackFrame.endY = Cast.toNumber(args.Y);
+            if (util.stackFrame.duration <= 0) {
+                // Duration too short to glide.
+                util.target.setXY(util.stackFrame.endX, util.stackFrame.endY);
+                return;
+            }
+            util.yield();
+        }
     }
 }
 
