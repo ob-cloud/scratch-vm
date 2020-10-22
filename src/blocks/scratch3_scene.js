@@ -22,12 +22,16 @@ class Scratch3SCENEBlocks {
         const red = Cast.toNumber(args.RED);
         const blue = Cast.toNumber(args.BLUE);
         const green = Cast.toNumber(args.GREEN);
+        const onTime = Cast.toNumber(args.ONTIME);
+        const offTime = Cast.toNumber(args.OFFTIME);
         const groupData = util.getGroupArgValues()
         let data = groupData ? groupData : {value: 0}
         data = Object.assign({}, data, {
             red,
             blue,
-            green
+            green,
+            onTime,
+            offTime
         })
         util.ioQuery('uav', 'sendMessage', [{cmd: 'scene_control_light', data}]);
     }
