@@ -28,6 +28,7 @@ const MouseWheel = require('../io/mouseWheel');
 const UserData = require('../io/userData');
 const Video = require('../io/video');
 const UAV = require('../io/uav');
+const Bridge = require('../io/bridge');
 
 const StringUtil = require('../util/string-util');
 const uid = require('../util/uid');
@@ -352,7 +353,8 @@ class Runtime extends EventEmitter {
             mouseWheel: new MouseWheel(this),
             userData: new UserData(),
             video: new Video(this),
-            uav: new UAV(this)
+            uav: new UAV(this),
+            bridge: new Bridge(this)
         };
 
         /**
