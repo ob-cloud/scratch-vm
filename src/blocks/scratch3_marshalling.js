@@ -28,21 +28,30 @@ class Scratch3MarshallingBlocks {
     group_range (args, util) {
         util.startBranch(1, false);
     }
+    // group_range_fn (args, util) {
+    //     const devType = Cast.toString(args.DEVTYPE);
+    //     const groupId = Cast.toString(args.GROUP);
+    //     const deviceId = Cast.toString(args.DEVICE);
+    //     const deviceId1 = Cast.toString(args.DEVICE1);
+    //     const deviceId2 = Cast.toString(args.DEVICE2);
+    //     const deviceId3 = Cast.toString(args.DEVICE3);
+    //     const deviceId4 = Cast.toString(args.DEVICE4);
+    //     const deviceId5 = Cast.toString(args.DEVICE5);
+    //     const deviceId6 = Cast.toString(args.DEVICE6);
+    //     util.ioQuery('uav', 'sendMessage', [{cmd: 'ms_group', data: {
+    //         devType,
+    //         groupId,
+    //         deviceId: `${deviceId},${deviceId1},${deviceId2},${deviceId3},${deviceId4},${deviceId5},${deviceId6}`,
+    //         value: 0
+    //     }}]);
+    // }
     group_range_fn (args, util) {
         const devType = Cast.toString(args.DEVTYPE);
         const groupId = Cast.toString(args.GROUP);
-        const deviceId = Cast.toString(args.DEVICE);
-        const deviceId1 = Cast.toString(args.DEVICE1);
-        const deviceId2 = Cast.toString(args.DEVICE2);
-        const deviceId3 = Cast.toString(args.DEVICE3);
-        const deviceId4 = Cast.toString(args.DEVICE4);
-        const deviceId5 = Cast.toString(args.DEVICE5);
-        const deviceId6 = Cast.toString(args.DEVICE6);
         util.ioQuery('uav', 'sendMessage', [{cmd: 'ms_group', data: {
             devType,
             groupId,
-            deviceId: `${deviceId},${deviceId1},${deviceId2},${deviceId3},${deviceId4},${deviceId5},${deviceId6}`,
-            value: 0
+            value: groupId
         }}]);
     }
     request (args, util) {
