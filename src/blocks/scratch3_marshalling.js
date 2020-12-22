@@ -48,10 +48,12 @@ class Scratch3MarshallingBlocks {
     group_range_fn (args, util) {
         const devType = Cast.toString(args.DEVTYPE);
         const groupId = Cast.toString(args.GROUP);
+        const deviceId = Cast.toString(args.DEVICE);
         util.ioQuery('uav', 'sendMessage', [{cmd: 'ms_group', data: {
             devType,
             groupId,
-            value: groupId
+            deviceId,
+            value: deviceId
         }}]);
     }
     request (args, util) {
